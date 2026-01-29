@@ -1,27 +1,40 @@
-// backend/src/db/index.js
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import serverless from "serverless-http";
+import connectDB from "../src/db/index.js";
+import { app } from "../src/app.js";
 
-dotenv.config();
+let isConnected = false;
+let connectionError = null;
 
-const connectDB = async () => {
-  try {
-    const mongoURI = process.env.MONGODB_URL || "";
+async function ensureDb() {
+  if (connectionError) throw connectionError;
 
-    if (!mongoURI) {
-      throw new Error("Missing MONGODB_URL in environment variables");
+  if (!isConnected) {
+    try {
+      console.log("Attempting MongoDB connection...");
+      await connectDB();
+      isConnected = true;
+      console.log("✓ MongoDB connected");
+    } catch (err) {
+      connectionError = err;
+      throw err;
     }
-
-    await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 5000, // Fail fast after 5s
-      socketTimeoutMS: 45000,
-    });
-
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("MongoDB connection error:", error.message);
-    process.exit(1); // exit if DB connection fails
   }
-};
+}
 
-export default connectDB;
+// DB middleware
+app.use(async (req, res, next) => {
+  try {
+    await ensureDb();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+const handler = serverless(app, {
+  callbackWaitsForEmptyEventLoop: false,
+});
+
+export default function vercelHandler(req, res) {
+  return handler(req, res);
+}
