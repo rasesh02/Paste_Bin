@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 dotenv.config({path:'./.env'})
 
 if (process.env.VERCEL !== "1") {
-  connectDB().then(() => {
+  await connectDB().then(() => {
     app.listen(process.env.PORT || 6000, () => {
       console.log("Local server running");
     });
