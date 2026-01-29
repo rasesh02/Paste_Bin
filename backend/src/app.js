@@ -24,6 +24,6 @@ app.use(cookieParser())
 
 import allRoutesRouter from "./routes/allRoutes.routes.js"
 //apis
-app.use("",allRoutesRouter);
+app.use(allRoutesRouter);
 
 export {app}
