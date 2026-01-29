@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "/api/[[...path]]"
+    },
+    {
+      "source": "/p/(.*)",
+      "destination": "/api/[[...path]]"
     }
   ],
   "functions": {

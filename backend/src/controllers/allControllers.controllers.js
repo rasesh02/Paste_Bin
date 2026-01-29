@@ -105,7 +105,7 @@ export const getUrl=async(req,res)=>{
           ]}
         ]
       }
-      const updatedRow= await Paste.findOneAndUpdate(filteredRow, { $inc: { views: 1 } }, { new: true });
+      const updatedRow= await Paste.findOne(filteredRow);
       if(!updatedRow){
       return res.status(404).json({error:"not_found"});
     }

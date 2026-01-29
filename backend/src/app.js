@@ -26,5 +26,6 @@ app.use(connectDBMiddleware);
 import allRoutesRouter from "./routes/allRoutes.routes.js"
 //apis
 app.use('/api',allRoutesRouter);
+app.use('/',allRoutesRouter);
 
 export {app}
