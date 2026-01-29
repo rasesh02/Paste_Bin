@@ -4,10 +4,11 @@ import dotenv from "dotenv"
 
 dotenv.config({path:'./.env'})
 
-connectDB().then(()=>{
-    app.listen(process.env.PORT || 6000,()=>{
-       console.log(`server running at port ${process.env.PORT}`)
-    })
-    
-}).catch(err=>{console.log(`error while listening : ${err}`)})
+if (process.env.VERCEL !== "1") {
+  connectDB().then(() => {
+    app.listen(process.env.PORT || 6000, () => {
+      console.log("Local server running");
+    });
+  });
+}
 
