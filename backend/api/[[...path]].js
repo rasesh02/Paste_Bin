@@ -1,5 +1,5 @@
-// /api/[[...path]].js
-import serverless from "serverless-http";
-import { app } from "../src/app.js";  // note relative path
+import { app } from "../src/app.js";
 
-export default serverless(app);
+// Vercel handles Express natively. 
+// No need for 'serverless-http'.
+export default app;
