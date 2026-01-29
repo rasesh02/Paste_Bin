@@ -13,7 +13,7 @@ const connectDB = async () => {
     }
 
     await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 10000, // Timeout after 10s instead of default 30s
+      serverSelectionTimeoutMS: 5000, // Fail fast after 5s
       socketTimeoutMS: 45000,
     });
 
