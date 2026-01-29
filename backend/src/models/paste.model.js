@@ -24,4 +24,4 @@ const PasteSchema= new mongoose.Schema({
    }
 })
 
-export const Paste=mongoose.model('Paste',PasteSchema);
+export default mongoose.models.Paste || mongoose.model("Paste", PasteSchema);
