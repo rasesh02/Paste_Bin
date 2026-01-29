@@ -12,7 +12,10 @@ const connectDB = async () => {
       throw new Error("Missing MONGODB_URL in environment variables");
     }
 
-    await mongoose.connect(mongoURI);
+    await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 10000, // Timeout after 10s instead of default 30s
+      socketTimeoutMS: 45000,
+    });
 
     console.log("Connected to MongoDB");
   } catch (error) {
